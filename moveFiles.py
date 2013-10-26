@@ -8,12 +8,10 @@ import time, datetime, os
 import time
 import shutil
 
-
-today = datetime.date.today()  # get today's date as a datetime type
-
-todaystr = today.isoformat()   # get string representation: YYYY-MM-DD
-                               # from a datetime type.
-
+# obtain current date as a datetime type
+today = datetime.date.today()
+# get string representation: YYYY-MM-DD from a datetime type.
+todaystr = today.isoformat()
 
 print "Todays date is %s" %(todaystr)
 print "Moving all files"
@@ -22,7 +20,6 @@ directoryFoundFlag, numFilesFound, files = (False, 0, 0)
 os.mkdir(todaystr)
 
 destination = "./" + todaystr
-
 
 for files in os.listdir("."):
 	if(os.path.isdir(files) or os.path.isfile("movesFiles.py")):
