@@ -4,7 +4,7 @@
 # place them in a new directory associated with the current date and time
 # @author Gareth Ng
 
-import os, shutil
+import os, shutil, sys
 import time, datetime
 
 # get today's date as a datetime type
@@ -25,8 +25,10 @@ if os.path.exists(lookIn) is True:
 	print "--------------------------------"
 
 	for files in os.listdir(lookIn):
-		if(os.path.isdir(files) or os.path.isfile("movesFiles.py")):
+		if os.path.isdir(files):
 			print "%s is a directory, will not be moved" %(files)
+		elif (os.path.basename(files) == sys.argv[0]): 
+			print "%s is the current script, will not be moved" %(sys.argv[0])
 		else:
 			try: 
 				filePath = lookIn + "/" + files
@@ -37,7 +39,7 @@ if os.path.exists(lookIn) is True:
 				print "%s cannot be moved" %(files)
 
 	print "--------------------------------"
-	print "%d files moved" %(numFilesFound)
+	print "Numer of files moved: %d" %(numFilesFound)
 else:
 	print "%s directory does not exist, closing script" %(lookIn)
 
