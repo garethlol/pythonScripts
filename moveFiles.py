@@ -4,28 +4,41 @@
 # place them in a new directory associated with the current date and time
 # @author Gareth Ng
 
-import time, datetime, os
-import time
-import shutil
+import os, shutil
+import time, datetime
 
-# obtain current date as a datetime type
-today = datetime.date.today()
-# get string representation: YYYY-MM-DD from a datetime type.
-todaystr = today.isoformat()
+# get today's date as a datetime type
+# and later a string representation YYYY-MM-DD
+todaystr = datetime.date.today().isoformat()  
 
-print "Todays date is %s" %(todaystr)
-print "Moving all files"
+prompt, directoryFoundFlag, numFilesFound, files = ('> ', False, 0, 0) 
+print "Enter directory which files need to be moved"
+inputDir = raw_input(prompt)
+lookIn = "./" + inputDir
 
-directoryFoundFlag, numFilesFound, files = (False, 0, 0)
-os.mkdir(todaystr)
+if os.path.exists(lookIn) is True:
+	print "%s is a valid directory, moving all files accordingly" %(lookIn)
 
-destination = "./" + todaystr
+	destination = lookIn + "/" + todaystr
+	os.mkdir(destination)
+	print "Moving all files to a new folder %s" %(destination)
+	print "--------------------------------"
 
-for files in os.listdir("."):
-	if(os.path.isdir(files) or os.path.isfile("movesFiles.py")):
-		print "%s is a directory, will not be moved" %(files)
-	else:
-		shutil.move(files,destination)
-		print "%s has been moved from current dir to %s" %(files, destination)
+	for files in os.listdir(lookIn):
+		if(os.path.isdir(files) or os.path.isfile("movesFiles.py")):
+			print "%s is a directory, will not be moved" %(files)
+		else:
+			try: 
+				filePath = lookIn + "/" + files
+				shutil.move(filePath,destination)
+				numFilesFound = numFilesFound + 1
+				print "%d) %s has been moved from current dir to %s" %(numFilesFound, files, destination)		
+			except (IOError):
+				print "%s cannot be moved" %(files)
 
-print "End file transfer"
+	print "--------------------------------"
+	print "%d files moved" %(numFilesFound)
+else:
+	print "%s directory does not exist, closing script" %(lookIn)
+
+print "Exiting script... Thank you!"
